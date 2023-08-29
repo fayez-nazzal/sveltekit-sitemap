@@ -177,26 +177,29 @@ const hasPageInside = (path: string): boolean => {
 export const getRoutes = (dir: string): Sitemap => {
     let routes: Sitemap = {};
     const traverseRoutes = (path: string) => {
-        const isDirectory = fs.statSync(path).isDirectory();
-        const isPageFolder = isDirectory && hasPageInside(path);
-        if (isDirectory && isPageFolder) {
-            fs.readdirSync(path).forEach((file) => traverseRoutes(path + "/" + file));
-        }
+      const isDirectory = fs.statSync(path).isDirectory();
+      const isPageFolder = isDirectory && hasPageInside(path);
+      if (isDirectory && isPageFolder) {
+        fs.readdirSync(path).forEach((file) =>
+          traverseRoutes(path + "/" + file)
+        );
+      }
 
-        const id = path.replace(dir, "").replace("/+page.svelte", "");
+      const id = path.replace(dir, "").replace("/+page.svelte", "");
 
-        const dirBase = path.replace("/+page.svelte", "");
+      const dirBase = path.replace("/+page.svelte", "");
 
-        const isFolder =
-            fs.statSync(dirBase).isDirectory() &&
-            fs.readdirSync(path.replace("/+page.svelte", "")).some((p) => {
-                return fs.statSync(dirBase + "/" + p).isDirectory();
-            });
-        if (!path.endsWith("+page.svelte") && !isFolder) return;
-
-        Object.assign(routes, {
-          [id || "/"]: isFolder && !id.startsWith("/api"),
+      const isFolder =
+        fs.statSync(dirBase).isDirectory() &&
+        fs.readdirSync(path.replace("/+page.svelte", "")).some((p) => {
+          return fs.statSync(dirBase + "/" + p).isDirectory();
         });
+      if (!path.endsWith("+page.svelte") && !isFolder) return;
+
+      if (!id.includes("/api") && !dir.includes("/api"))
+          Object.assign(routes, {
+            [id || "/"]: isFolder,
+          });
     };
     fs.readdirSync(dir).forEach((file) => traverseRoutes(dir + "/" + file));
 
