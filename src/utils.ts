@@ -40,16 +40,19 @@ export const generateSitemap = <S extends RO_Sitemap>(
 
     // Add custom route data to the routes object
     Object.entries(sitemap).forEach(([route]) => {
-        const RouteDefinition = definitions[route as keyof typeof definitions];
-        if (RouteDefinition) {
-            if (Array.isArray(RouteDefinition)) {
-                RouteDefinition.forEach((definition) => {
-                    Object.assign(routes, { [definition.path]: definition });
-                });
-            } else {
-                Object.assign(routes, { [RouteDefinition?.path || route]: RouteDefinition });
-            }
+      const RouteDefinition = definitions[route as keyof typeof definitions];
+
+      if (RouteDefinition) {
+        if (Array.isArray(RouteDefinition)) {
+          RouteDefinition.forEach((definition) => {
+            Object.assign(routes, { [definition.path]: definition });
+          });
+        } else {
+          Object.assign(routes, {
+            [RouteDefinition?.path || route]: RouteDefinition,
+          });
         }
+      }
     });
 
     // Build and return sitemap
@@ -57,26 +60,30 @@ export const generateSitemap = <S extends RO_Sitemap>(
     return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${Object.entries(routes)
-    .map(([r, { path, changeFreq, image, lastMod }]) => {
-        return `  <url>
+  .filter(Boolean)
+  .map(([r, def]) => {
+    if (!def) return ``;
+    const { path, changeFreq, image, lastMod } = def;
+
+    return `  <url>
     <loc>${baseUrl}${path || r}</loc>
   
   ${lastMod ? `<lastmod>${lastMod}</lastmod>` : ""}
   ${changeFreq ? `<changefreq>${changeFreq}</changefreq>` : ""}
   ${
-      image
-          ? `
+    image
+      ? `
     <image:image>
       <image:loc>${encodeXML(image.url)}</image:loc>
       <image:title>${encodeXML(image.title ?? " ")}</image:title>
       <image:caption>${encodeXML(image.altText ?? " ")}</image:caption>
     </image:image>`
-          : ""
+      : ""
   }
   </url>
   `;
-    })
-    .join("\n")}
+  })
+  .join("\n")}
 </urlset>`;
 };
 
