@@ -201,7 +201,7 @@ export const getRoutes = (dir: string): Sitemap => {
             [id || "/"]: isFolder,
           });
     };
-    fs.readdirSync(dir).forEach((file) => traverseRoutes(dir + "/" + file));
+    fs.readdirSync(dir).forEach((file) => !dir.includes("/api") && traverseRoutes(dir + "/" + file));
 
     return routes;
 };
