@@ -13,15 +13,8 @@ type Folders<S extends RO_Sitemap> = Str<{
 }[keyof S]>;
 type StaticRoutes<S extends RO_Sitemap, R extends Routes<S> = Routes<S>> = Str<R extends `/${infer B}/[${infer P}]` ? never : R>;
 type Priority = "1.0" | "0.9" | "0.8" | "0.7" | "0.6" | "0.5" | "0.4" | "0.3" | "0.2" | "0.1" | "0.0";
-type Frequency =
-  | "Always"
-  | "Hourly"
-  | "weekly"
-  | "monthly"
-  | "yearly"
-  | "Never";
-type RouteDefinition<S extends boolean> = SetOptional<
-  {
+type Frequency = "Always" | "Hourly" | "weekly" | "monthly" | "yearly" | "Never";
+type RouteDefinition<S extends boolean> = false | SetOptional<{
     path: string;
     lastMod?: string;
     /**
@@ -51,9 +44,7 @@ type RouteDefinition<S extends boolean> = SetOptional<
      */
     priority?: Priority;
     image?: RouteDefinitionImage;
-  },
-  S extends true ? "path" : never
->;
+}, S extends true ? "path" : never>;
 type RouteDefinitionImage = {
     url: string;
     title?: string | null;

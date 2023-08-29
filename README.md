@@ -27,7 +27,7 @@ npm install Joonel/sveltekit-sitemap
 // vite.config.js
 
 import { sveltekit } from "@sveltejs/kit/vite";
-import { sitemapPlugin } from "sveltekit-sitemap";
+import { sitemapPlugin } from "@fayeznazzal/sveltekit-sitemap";
 
 /** @type {import('vite').UserConfig} */
 const config = {
@@ -42,7 +42,7 @@ export default config;
 ```ts
 // src/hooks.server.ts
 import type { Handle } from "@sveltejs/kit";
-import { sitemapHook } from "sveltekit-sitemap";
+import { sitemapHook } from "@fayeznazzal/sveltekit-sitemap";
 import { sitemap } from "./sitemap";
 
 export const handle: Handle = sitemapHook(sitemap, params);

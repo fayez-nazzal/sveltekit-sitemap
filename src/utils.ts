@@ -45,6 +45,8 @@ export const generateSitemap = <S extends RO_Sitemap>(
       if (RouteDefinition) {
         if (Array.isArray(RouteDefinition)) {
           RouteDefinition.forEach((definition) => {
+            if (!definition) return;
+            
             Object.assign(routes, { [definition.path]: definition });
           });
         } else {
