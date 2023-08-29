@@ -19,7 +19,13 @@ export type StaticRoutes<S extends RO_Sitemap, R extends Routes<S> = Routes<S>> 
 
 type Priority = "1.0" | "0.9" | "0.8" | "0.7" | "0.6" | "0.5" | "0.4" | "0.3" | "0.2" | "0.1" | "0.0";
 
-type Frequency = "Always" | "Hourly" | "Weekly" | "Monthly" | "Yearly" | "Never";
+type Frequency =
+  | "Always"
+  | "Hourly"
+  | "weekly"
+  | "monthly"
+  | "yearly"
+  | "Never";
 export type RouteDefinition<S extends boolean> = SetOptional<
   {
     path: string;
@@ -29,13 +35,13 @@ export type RouteDefinition<S extends boolean> = SetOptional<
      * These page types are constantly changing and will include index pages on major news publications, Google News, stock market data, and social bookmarking categories.
      * 2. Hourly
      * These pages update every hour and will also include major news publications as well as weather services and forums.
-     * 3. Daily
+     * 3. daily
      * Pages updated on average once per day and include things like blog posts, smaller web forum pages, message boards, and classified ads.
-     * 4. Weekly
+     * 4. weekly
      * Updates typically occur once per week, these pages will include website directories, product pricing pages, and smaller blogs.
-     * 5. Monthly
+     * 5. monthly
      * These are updated once per month, give or take, and include category pages, FAQs, and sometimes Help Desk articles that change slightly. Refer to the section above for guidelines on what is considered to be a change frequency trigger.
-     * 6. Yearly
+     * 6. yearly
      * Updates  on these pages happen on an annual basis and are typically your contact page, “About” page, login pages, and registration pages.
      * 7. Never
      * As the name suggests, these pages never ever get updates. These are really old blog posts, press releases, notifications about updates that never need updating, and completely static pages.

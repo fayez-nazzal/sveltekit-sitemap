@@ -114,7 +114,7 @@ sitemapHook(sitemap, {
         { path: "/products/test-2" },
         {
           path: "/products/test-3",
-          changeFreq: "Monthly",
+          changeFreq: "monthly",
           priority: "0.8",
           lastMod: "2023-01-01",
           image: {
