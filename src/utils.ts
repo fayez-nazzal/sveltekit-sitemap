@@ -194,7 +194,9 @@ export const getRoutes = (dir: string): Sitemap => {
             });
         if (!path.endsWith("+page.svelte") && !isFolder) return;
 
-        Object.assign(routes, { [id || "/"]: isFolder });
+        Object.assign(routes, {
+          [id || "/"]: isFolder && !id.startsWith("/api"),
+        });
     };
     fs.readdirSync(dir).forEach((file) => traverseRoutes(dir + "/" + file));
 
