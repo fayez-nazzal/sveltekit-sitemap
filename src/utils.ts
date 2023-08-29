@@ -60,15 +60,16 @@ export const generateSitemap = <S extends RO_Sitemap>(
     return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${Object.entries(routes)
-  .filter(Boolean)
+  .filter(([_, v]) => v)
   .map(([r, def]) => {
     if (!def) return ``;
-    const { path, changeFreq, image, lastMod } = def;
+    const { path, changeFreq, image, lastMod, priority } = def;
 
     return `  <url>
     <loc>${baseUrl}${path || r}</loc>
   
   ${lastMod ? `<lastmod>${lastMod}</lastmod>` : ""}
+  ${priority ? `<priority>${changeFreq}</priority>` : ""}
   ${changeFreq ? `<changefreq>${changeFreq}</changefreq>` : ""}
   ${
     image
